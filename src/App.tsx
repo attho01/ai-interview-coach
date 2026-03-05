@@ -469,12 +469,12 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-3xl mx-auto space-y-12"
             >
-              <div className="space-y-6">
-                <h2 className="text-7xl font-black tracking-tighter leading-none">목표기업 정보입력</h2>
-                <p className="text-2xl text-black/40 font-semibold">어느 기업에 지원하시나요? 최신 기출문제를 찾아드립니다.</p>
+              <div className="space-y-4">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">목표기업 정보입력</h2>
+                <p className="text-lg text-brand-muted font-medium">어느 기업에 지원하시나요? 최신 기출문제를 찾아드립니다.</p>
               </div>
 
-              <div className="vibe-card p-12 space-y-10">
+              <div className="vibe-card p-8 md:p-12 space-y-8">
                 <div className="space-y-4">
                   <label className="vibe-label flex items-center gap-2">
                     <Building2 className="w-4 h-4" /> 기업명
@@ -484,7 +484,7 @@ export default function App() {
                     placeholder="예: 삼성전자, 구글, 현대자동차"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-8 py-6 bg-brand-bg border border-black/[0.03] rounded-[16px] focus:ring-2 focus:ring-brand-primary outline-none transition-all text-2xl font-bold tracking-tight"
+                    className="w-full px-6 py-4 bg-brand-bg border border-black/[0.03] rounded-2xl focus:ring-2 focus:ring-brand-primary outline-none transition-all text-lg font-bold tracking-tight text-brand-ink"
                   />
                   <div className="flex flex-wrap gap-2 mt-4">
                     {["삼성전자", "현대자동차", "카카오", "네이버", "쿠팡"].map(ex => (
@@ -507,16 +507,16 @@ export default function App() {
                     placeholder="지원 직무, 요구사항 또는 채용 공고 링크..."
                     value={jobInfo}
                     onChange={(e) => setJobInfo(e.target.value)}
-                    className="w-full px-8 py-6 bg-brand-bg border border-black/[0.03] rounded-[16px] focus:ring-2 focus:ring-brand-primary outline-none transition-all min-h-[200px] resize-none text-xl font-bold leading-relaxed"
+                    className="w-full px-6 py-4 bg-brand-bg border border-black/[0.03] rounded-2xl focus:ring-2 focus:ring-brand-primary outline-none transition-all min-h-[160px] resize-none text-base font-medium leading-relaxed text-brand-ink"
                   />
                 </div>
 
                 <button 
                   onClick={() => setStep("RESUME")}
                   disabled={!company}
-                  className="vibe-button-primary w-full py-6 text-xl group"
+                  className="vibe-button-primary w-full py-5 rounded-2xl text-lg group flex items-center justify-center gap-2 font-bold"
                 >
-                  다음 단계로 <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  다음 단계로 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </motion.div>
@@ -530,17 +530,17 @@ export default function App() {
               exit={{ opacity: 0, y: -20 }}
               className="max-w-3xl mx-auto space-y-12"
             >
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 mb-2">
                 <button onClick={() => setStep("COMPANY")} className="p-3 hover:bg-black/5 rounded-2xl transition-colors">
                   <ArrowLeft className="w-6 h-6" />
                 </button>
-                <div className="space-y-4">
-                  <h2 className="text-6xl font-black tracking-tighter leading-none">개인 데이터</h2>
-                  <p className="text-2xl text-black/40 font-semibold">심층 분석을 위해 이력서, 자소서 또는 포트폴리오를 업로드하세요.</p>
+                <div className="space-y-2">
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">개인 데이터</h2>
+                  <p className="text-lg text-brand-muted font-medium">심층 분석을 위해 이력서, 자소서 또는 포트폴리오를 업로드하세요.</p>
                 </div>
               </div>
 
-              <div className="vibe-card p-12 space-y-12">
+              <div className="vibe-card p-8 md:p-12 space-y-10">
                 {/* File Upload Area */}
                 <div className="space-y-6">
                   <label className="vibe-label flex items-center gap-2">
@@ -549,13 +549,13 @@ export default function App() {
                   
                   <div 
                     onClick={() => fileInputRef.current?.click()}
-                    className="vibe-card border-2 border-dashed border-black/10 p-16 flex flex-col items-center justify-center gap-6 cursor-pointer hover:border-brand-primary hover:bg-brand-secondary/30 transition-all group"
+                    className="vibe-card border-2 border-dashed border-black/10 p-12 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-brand-primary hover:bg-brand-secondary/30 transition-all group"
                   >
-                    <div className="w-16 h-16 bg-brand-secondary rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <Upload className="text-brand-primary w-8 h-8" />
+                    <div className="w-14 h-14 bg-brand-secondary rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                      <Upload className="text-brand-primary w-6 h-6" />
                     </div>
-                    <div className="text-center space-y-4">
-                      <p className="text-3xl font-black tracking-tight">클릭하여 파일 업로드</p>
+                    <div className="text-center space-y-2">
+                      <p className="text-xl font-bold tracking-tight">클릭하여 파일 업로드</p>
                       <p className="vibe-label text-sm">이력서, 자소서, 경력기술서, 포트폴리오 (PDF, TXT, JPG, PNG)</p>
                     </div>
                     <input 
@@ -616,23 +616,23 @@ export default function App() {
                     placeholder="파일에 포함되지 않은 구체적인 성과나 경험이 있다면 입력해주세요..."
                     value={resumeText}
                     onChange={(e) => setResumeText(e.target.value)}
-                    className="w-full px-8 py-6 bg-brand-bg border border-black/[0.03] rounded-[16px] focus:ring-2 focus:ring-brand-primary outline-none transition-all min-h-[200px] resize-none text-xl font-bold leading-relaxed"
+                    className="w-full px-6 py-4 bg-brand-bg border border-black/[0.03] rounded-2xl focus:ring-2 focus:ring-brand-primary outline-none transition-all min-h-[160px] resize-none text-base font-medium leading-relaxed text-brand-ink"
                   />
                 </div>
 
                 <button 
                   onClick={handleFetchQuestions}
                   disabled={uploadedFiles.length === 0 && !resumeText}
-                  className="vibe-button-primary w-full py-6 text-xl"
+                  className="vibe-button-primary w-full py-5 rounded-2xl text-lg flex items-center justify-center gap-2 font-bold"
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       기출문제 수집 중...
                     </>
                   ) : (
                     <>
-                      <Search className="w-6 h-6" />
+                      <Search className="w-5 h-5" />
                       기출문제 찾기
                     </>
                   )}
@@ -651,11 +651,11 @@ export default function App() {
             >
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-brand-primary vibe-label">
+                  <div className="flex items-center gap-2 text-brand-primary vibe-label text-sm font-bold">
                     <History className="w-4 h-4" /> 실시간 수집 완료
                   </div>
-                  <h2 className="text-7xl font-black tracking-tighter leading-none">{company}</h2>
-                  <p className="vibe-label text-sm">출처: {questionData.source} | 업데이트: {questionData.date}</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">{company}</h2>
+                  <p className="vibe-label text-sm font-medium">출처: {questionData.source} | 업데이트: {questionData.date}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <button 
@@ -676,7 +676,7 @@ export default function App() {
                     placeholder="질문 검색..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-14 pr-8 py-5 bg-brand-bg border border-black/[0.03] rounded-[16px] focus:ring-2 focus:ring-brand-primary outline-none text-xl font-bold tracking-tight transition-all"
+                    className="w-full pl-12 pr-6 py-4 bg-brand-bg border border-black/[0.03] rounded-2xl focus:ring-2 focus:ring-brand-primary outline-none text-base font-medium transition-all"
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
