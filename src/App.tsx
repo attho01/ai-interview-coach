@@ -277,7 +277,7 @@ export default function App() {
               <Sparkles className="text-white w-5 h-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-xl tracking-tighter text-brand-primary leading-none">AI 코치</span>
+              <span className="font-black text-xl tracking-tighter text-brand-primary leading-none">AI 면접코치</span>
             </div>
           </div>
 
@@ -362,8 +362,8 @@ export default function App() {
                         onClick={handleStart}
                         disabled={isValidating}
                         className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 transition-all shadow-lg group ${isValidating
-                            ? "bg-slate-300 cursor-not-allowed"
-                            : "bg-[#94A3B8] hover:bg-[#64748B] text-white shadow-slate-200"
+                          ? "bg-slate-300 cursor-not-allowed"
+                          : "bg-[#94A3B8] hover:bg-[#64748B] text-white shadow-slate-200"
                           }`}
                       >
                         {isValidating ? (
@@ -681,8 +681,8 @@ export default function App() {
                   <button
                     onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
                     className={`flex items-center gap-2 px-6 py-4 rounded-xl text-sm font-black transition-all border ${showFavoritesOnly
-                        ? "bg-brand-primary text-white border-brand-primary"
-                        : "bg-white text-brand-muted border-black/[0.05] hover:border-brand-primary"
+                      ? "bg-brand-primary text-white border-brand-primary"
+                      : "bg-white text-brand-muted border-black/[0.05] hover:border-brand-primary"
                       }`}
                   >
                     <Star className={`w-4 h-4 ${showFavoritesOnly ? "fill-white" : ""}`} />
@@ -759,8 +759,8 @@ export default function App() {
                             onClick={() => handleGenerateAnswer(q.question)}
                             disabled={loading}
                             className={`w-full text-left p-5 rounded-2xl transition-all group flex justify-between items-start gap-4 border ${selectedQuestion === q.question && loading
-                                ? "bg-brand-secondary border-brand-primary ring-2 ring-brand-primary/10"
-                                : "bg-white border-black/[0.03] hover:border-brand-primary/30 hover:shadow-sm"
+                              ? "bg-brand-secondary border-brand-primary ring-2 ring-brand-primary/10"
+                              : "bg-white border-black/[0.03] hover:border-brand-primary/30 hover:shadow-sm"
                               } disabled:opacity-70 disabled:cursor-not-allowed relative`}
                           >
                             <div className="flex-1 pr-6">
@@ -770,8 +770,8 @@ export default function App() {
                               <button
                                 onClick={(e) => toggleFavorite(e, q.question)}
                                 className={`p-2 rounded-xl transition-all ${favorites.includes(q.question)
-                                    ? "text-yellow-500 bg-yellow-50"
-                                    : "text-black/10 hover:text-yellow-500 hover:bg-yellow-50"
+                                  ? "text-yellow-500 bg-yellow-50"
+                                  : "text-black/10 hover:text-yellow-500 hover:bg-yellow-50"
                                   }`}
                               >
                                 <Star className={`w-5 h-5 ${favorites.includes(q.question) ? "fill-yellow-500" : ""}`} />
@@ -1010,7 +1010,7 @@ export default function App() {
                 <div className="vibe-card p-12 space-y-8 text-brand-ink leading-relaxed">
                   <section className="space-y-4">
                     <h2 className="text-2xl font-black">1. 수집하는 개인정보 항목</h2>
-                    <p>AI 코치는 서비스 제공을 위해 다음과 같은 정보를 수집합니다.</p>
+                    <p>AI 면접코치는 서비스 제공을 위해 다음과 같은 정보를 수집합니다.</p>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>이력서 및 자기소개서 데이터 (사용자 업로드)</li>
                       <li>지원 기업 및 직무 정보</li>
@@ -1055,7 +1055,7 @@ export default function App() {
                 <div className="vibe-card p-12 space-y-8 text-brand-ink leading-relaxed">
                   <section className="space-y-4">
                     <h2 className="text-2xl font-black">1. 목적</h2>
-                    <p>본 약관은 AI 코치(이하 "회사")가 제공하는 서비스의 이용 조건 및 절차, 회사와 회원 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다.</p>
+                    <p>본 약관은 AI 면접코치(이하 "회사")가 제공하는 서비스의 이용 조건 및 절차, 회사와 회원 간의 권리, 의무 및 책임 사항을 규정함을 목적으로 합니다.</p>
                   </section>
                   <section className="space-y-4">
                     <h2 className="text-2xl font-black">2. 서비스의 제공 및 변경</h2>
