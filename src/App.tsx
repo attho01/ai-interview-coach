@@ -5,14 +5,14 @@
 
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Building2, 
-  FileText, 
-  Search, 
-  ChevronRight, 
-  CheckCircle2, 
-  Loader2, 
-  Sparkles, 
+import {
+  Building2,
+  FileText,
+  Search,
+  ChevronRight,
+  CheckCircle2,
+  Loader2,
+  Sparkles,
   ArrowLeft,
   MessageSquare,
   History,
@@ -34,14 +34,14 @@ import {
   Globe,
   List
 } from "lucide-react";
-import { 
-  fetchInterviewQuestions, 
-  generateInterviewAnswers, 
+import {
+  fetchInterviewQuestions,
+  generateInterviewAnswers,
   validateApiKey,
   Question,
-  QuestionCategory, 
-  AnswerVersion, 
-  Analysis 
+  QuestionCategory,
+  AnswerVersion,
+  Analysis
 } from "./services/gemini";
 import { Part } from "@google/genai";
 
@@ -61,12 +61,12 @@ export default function App() {
   const [isValidating, setIsValidating] = useState(false);
   const [company, setCompany] = useState("");
   const [jobInfo, setJobInfo] = useState("");
-  
+
   // Personal Data
   const [resumeText, setResumeText] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [loading, setLoading] = useState(false);
   const [questionData, setQuestionData] = useState<{ source: string; date: string; categories: QuestionCategory[] } | null>(null);
   const [history, setHistory] = useState<Array<{ company: string; job: string; data: any }>>(() => {
@@ -78,10 +78,10 @@ export default function App() {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedCompanyFilter, setSelectedCompanyFilter] = useState<string>("all");
   const [selectedJobFilter, setSelectedJobFilter] = useState<string>("all");
-  
+
   const [selectedQuestion, setSelectedQuestion] = useState("");
   const [customQuestion, setCustomQuestion] = useState("");
-  
+
   const [answerData, setAnswerData] = useState<{ analysis: Analysis; versions: AnswerVersion[]; tips: any } | null>(null);
 
   // Persistence
@@ -143,16 +143,16 @@ export default function App() {
 
   const toggleFavorite = (e: React.MouseEvent, question: string) => {
     e.stopPropagation();
-    setFavorites(prev => 
-      prev.includes(question) 
-        ? prev.filter(q => q !== question) 
+    setFavorites(prev =>
+      prev.includes(question)
+        ? prev.filter(q => q !== question)
         : [...prev, question]
     );
   };
 
   const filteredCategories = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    
+
     // If showing favorites only, we might want to see them from all history
     if (showFavoritesOnly && selectedCompanyFilter === "all") {
       const allFavorites: Question[] = [];
@@ -166,9 +166,9 @@ export default function App() {
           });
         });
       });
-      
+
       if (allFavorites.length === 0) return [];
-      
+
       return [{
         category: "즐겨찾기한 질문",
         questions: allFavorites.filter(q => q.question.toLowerCase().includes(query))
@@ -176,12 +176,12 @@ export default function App() {
     }
 
     if (!questionData) return [];
-    
+
     return questionData.categories.map(cat => ({
       ...cat,
       questions: cat.questions.filter(q => {
-        const matchesSearch = q.question.toLowerCase().includes(query) || 
-                             q.type?.toLowerCase().includes(query);
+        const matchesSearch = q.question.toLowerCase().includes(query) ||
+          q.type?.toLowerCase().includes(query);
         const matchesFavorite = !showFavoritesOnly || favorites.includes(q.question);
         return matchesSearch && matchesFavorite;
       })
@@ -194,16 +194,16 @@ export default function App() {
     if (!q) return;
     setSelectedQuestion(q);
     setLoading(true);
-    
+
     try {
       // Prepare parts for Gemini
       const parts: Part[] = [];
-      
+
       // Add text data if exists
       if (resumeText.trim()) {
         parts.push({ text: `추가 텍스트 정보: ${resumeText}` });
       }
-      
+
       // Add files
       uploadedFiles.forEach(file => {
         parts.push({
@@ -248,10 +248,10 @@ export default function App() {
 
     setIsValidating(true);
     setApiKeyError("");
-    
+
     try {
       const result = await validateApiKey(trimmedKey);
-      
+
       if (result.valid) {
         // Validation succeeded - proceed to the next step
         setStep("COMPANY");
@@ -318,7 +318,7 @@ export default function App() {
                         Model: Gemini 3 Flash Preview
                       </div>
                     </div>
-                    
+
                     <div className="space-y-6">
                       <h1 className="text-5xl lg:text-6xl font-black tracking-tighter leading-[1.1] text-[#0F172A]">
                         당신의 합격은<br />
@@ -336,7 +336,7 @@ export default function App() {
                         <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                           <Lock className="w-5 h-5 text-brand-muted group-focus-within:text-brand-primary transition-colors" />
                         </div>
-                        <input 
+                        <input
                           type="password"
                           value={apiKey}
                           onChange={(e) => {
@@ -349,9 +349,8 @@ export default function App() {
                             }
                           }}
                           placeholder="Gemini API Key를 입력하세요"
-                          className={`w-full bg-[#F8FAFC] border rounded-2xl pl-14 pr-6 py-5 text-sm focus:outline-none focus:ring-2 transition-all font-medium ${
-                            apiKeyError ? "border-red-500 focus:ring-red-500/20" : "border-black/[0.05] focus:ring-brand-primary/20"
-                          }`}
+                          className={`w-full bg-[#F8FAFC] border rounded-2xl pl-14 pr-6 py-5 text-sm focus:outline-none focus:ring-2 transition-all font-medium ${apiKeyError ? "border-red-500 focus:ring-red-500/20" : "border-black/[0.05] focus:ring-brand-primary/20"
+                            }`}
                         />
                       </div>
                       {apiKeyError && (
@@ -359,14 +358,13 @@ export default function App() {
                           {apiKeyError}
                         </p>
                       )}
-                      <button 
+                      <button
                         onClick={handleStart}
                         disabled={isValidating}
-                        className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 transition-all shadow-lg group ${
-                          isValidating 
-                            ? "bg-slate-300 cursor-not-allowed" 
+                        className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-2 transition-all shadow-lg group ${isValidating
+                            ? "bg-slate-300 cursor-not-allowed"
                             : "bg-[#94A3B8] hover:bg-[#64748B] text-white shadow-slate-200"
-                        }`}
+                          }`}
                       >
                         {isValidating ? (
                           <>
@@ -479,8 +477,8 @@ export default function App() {
                   <label className="vibe-label flex items-center gap-2">
                     <Building2 className="w-4 h-4" /> 기업명
                   </label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="예: 삼성전자, 구글, 현대자동차"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
@@ -488,7 +486,7 @@ export default function App() {
                   />
                   <div className="flex flex-wrap gap-2 mt-4">
                     {["삼성전자", "현대자동차", "카카오", "네이버", "쿠팡"].map(ex => (
-                      <button 
+                      <button
                         key={ex}
                         onClick={() => setCompany(ex)}
                         className="px-4 py-2 bg-brand-secondary text-brand-primary rounded-lg text-sm font-bold hover:bg-brand-primary hover:text-white transition-colors"
@@ -503,7 +501,7 @@ export default function App() {
                   <label className="vibe-label flex items-center gap-2">
                     <FileText className="w-4 h-4" /> 직무 정보 (선택)
                   </label>
-                  <textarea 
+                  <textarea
                     placeholder="지원 직무, 요구사항 또는 채용 공고 링크..."
                     value={jobInfo}
                     onChange={(e) => setJobInfo(e.target.value)}
@@ -511,7 +509,7 @@ export default function App() {
                   />
                 </div>
 
-                <button 
+                <button
                   onClick={() => setStep("RESUME")}
                   disabled={!company}
                   className="vibe-button-primary w-full py-5 rounded-2xl text-lg group flex items-center justify-center gap-2 font-bold"
@@ -546,8 +544,8 @@ export default function App() {
                   <label className="vibe-label flex items-center gap-2">
                     <Upload className="w-4 h-4" /> 첨부 파일 (PDF, TXT, 이미지)
                   </label>
-                  
-                  <div 
+
+                  <div
                     onClick={() => fileInputRef.current?.click()}
                     className="vibe-card border-2 border-dashed border-black/10 p-12 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-brand-primary hover:bg-brand-secondary/30 transition-all group"
                   >
@@ -558,8 +556,8 @@ export default function App() {
                       <p className="text-xl font-bold tracking-tight">클릭하여 파일 업로드</p>
                       <p className="vibe-label text-sm">이력서, 자소서, 경력기술서, 포트폴리오 (PDF, TXT, JPG, PNG)</p>
                     </div>
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       ref={fileInputRef}
                       onChange={handleFileUpload}
                       multiple
@@ -573,7 +571,7 @@ export default function App() {
                     {uploadedFiles.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                         {uploadedFiles.map((file, idx) => (
-                          <motion.div 
+                          <motion.div
                             key={idx}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -595,7 +593,7 @@ export default function App() {
                                 <span className="vibe-label text-[10px]">{(file.size / 1024).toFixed(1)} KB</span>
                               </div>
                             </div>
-                            <button 
+                            <button
                               onClick={() => removeFile(idx)}
                               className="p-2 hover:bg-red-50 text-black/10 hover:text-red-500 rounded-xl transition-all"
                             >
@@ -612,7 +610,7 @@ export default function App() {
                   <label className="vibe-label flex items-center gap-2">
                     <MessageSquare className="w-4 h-4" /> 추가 정보 입력 (선택)
                   </label>
-                  <textarea 
+                  <textarea
                     placeholder="파일에 포함되지 않은 구체적인 성과나 경험이 있다면 입력해주세요..."
                     value={resumeText}
                     onChange={(e) => setResumeText(e.target.value)}
@@ -620,7 +618,7 @@ export default function App() {
                   />
                 </div>
 
-                <button 
+                <button
                   onClick={handleFetchQuestions}
                   disabled={uploadedFiles.length === 0 && !resumeText}
                   className="vibe-button-primary w-full py-5 rounded-2xl text-lg flex items-center justify-center gap-2 font-bold"
@@ -658,7 +656,7 @@ export default function App() {
                   <p className="vibe-label text-sm font-medium">출처: {questionData.source} | 업데이트: {questionData.date}</p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button 
+                  <button
                     onClick={() => setStep("RESUME")}
                     className="vibe-label hover:text-brand-ink transition-colors"
                   >
@@ -671,7 +669,7 @@ export default function App() {
               <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-[24px] border border-black/[0.03] shadow-sm">
                 <div className="relative flex-1">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-muted" />
-                  <input 
+                  <input
                     type="text"
                     placeholder="질문 검색..."
                     value={searchQuery}
@@ -680,20 +678,19 @@ export default function App() {
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <button 
+                  <button
                     onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                    className={`flex items-center gap-2 px-6 py-4 rounded-xl text-sm font-black transition-all border ${
-                      showFavoritesOnly 
-                        ? "bg-brand-primary text-white border-brand-primary" 
+                    className={`flex items-center gap-2 px-6 py-4 rounded-xl text-sm font-black transition-all border ${showFavoritesOnly
+                        ? "bg-brand-primary text-white border-brand-primary"
                         : "bg-white text-brand-muted border-black/[0.05] hover:border-brand-primary"
-                    }`}
+                      }`}
                   >
                     <Star className={`w-4 h-4 ${showFavoritesOnly ? "fill-white" : ""}`} />
                     중요 질문
                   </button>
-                  
+
                   <div className="relative">
-                    <select 
+                    <select
                       value={selectedCompanyFilter}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -719,7 +716,7 @@ export default function App() {
                   </div>
 
                   <div className="relative">
-                    <select 
+                    <select
                       value={selectedJobFilter}
                       disabled={selectedCompanyFilter === "all"}
                       onChange={(e) => {
@@ -750,10 +747,10 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {filteredCategories.length > 0 ? (
                   filteredCategories.map((cat, idx) => (
-                    <div key={idx} className="vibe-card p-10 space-y-8">
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-brand-primary rounded-full shadow-lg shadow-brand-primary/20" />
-                        <h3 className="font-black text-3xl tracking-tight">{(cat.category as string).toUpperCase()}</h3>
+                    <div key={idx} className="bg-white rounded-3xl p-8 shadow-sm border border-black/[0.03] space-y-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-brand-primary rounded-full shadow-lg shadow-brand-primary/20" />
+                        <h3 className="font-black text-xl md:text-2xl tracking-tight text-brand-ink">{(cat.category as string).toUpperCase()}</h3>
                       </div>
                       <div className="space-y-3">
                         {cat.questions.map((q) => (
@@ -761,30 +758,28 @@ export default function App() {
                             key={q.id}
                             onClick={() => handleGenerateAnswer(q.question)}
                             disabled={loading}
-                            className={`w-full text-left p-6 rounded-xl transition-all group flex justify-between items-start gap-6 border ${
-                              selectedQuestion === q.question && loading 
-                                ? "bg-brand-secondary border-brand-primary ring-2 ring-brand-primary/10" 
-                                : "bg-brand-bg border-transparent hover:border-brand-primary/20"
-                            } disabled:opacity-70 disabled:cursor-not-allowed relative`}
+                            className={`w-full text-left p-5 rounded-2xl transition-all group flex justify-between items-start gap-4 border ${selectedQuestion === q.question && loading
+                                ? "bg-brand-secondary border-brand-primary ring-2 ring-brand-primary/10"
+                                : "bg-white border-black/[0.03] hover:border-brand-primary/30 hover:shadow-sm"
+                              } disabled:opacity-70 disabled:cursor-not-allowed relative`}
                           >
-                            <div className="flex-1 pr-10">
-                              <p className="text-xl font-bold leading-tight tracking-tight">{q.question}</p>
+                            <div className="flex-1 pr-6">
+                              <p className="text-base font-bold leading-snug tracking-tight text-brand-ink group-hover:text-brand-primary transition-colors">{q.question}</p>
                             </div>
                             <div className="flex flex-col items-end gap-4 shrink-0 mt-1">
                               <button
                                 onClick={(e) => toggleFavorite(e, q.question)}
-                                className={`p-2 rounded-xl transition-all ${
-                                  favorites.includes(q.question) 
-                                    ? "text-yellow-500 bg-yellow-50" 
+                                className={`p-2 rounded-xl transition-all ${favorites.includes(q.question)
+                                    ? "text-yellow-500 bg-yellow-50"
                                     : "text-black/10 hover:text-yellow-500 hover:bg-yellow-50"
-                                }`}
+                                  }`}
                               >
                                 <Star className={`w-5 h-5 ${favorites.includes(q.question) ? "fill-yellow-500" : ""}`} />
                               </button>
                               {selectedQuestion === q.question && loading ? (
-                                <Loader2 className="w-5 h-5 text-brand-accent animate-spin" />
+                                <Loader2 className="w-4 h-4 text-brand-primary animate-spin" />
                               ) : (
-                                <ChevronRight className="w-5 h-5 text-black/10 group-hover:text-brand-accent transition-colors" />
+                                <ChevronRight className="w-4 h-4 text-black/10 group-hover:text-brand-primary transition-colors" />
                               )}
                             </div>
                           </button>
@@ -808,14 +803,14 @@ export default function App() {
                     <p className="text-white/60 text-xl font-semibold">준비하고 싶은 특정 질문이 있다면 아래에 입력하세요.</p>
                   </div>
                   <div className="flex flex-col md:flex-row gap-6 relative z-10">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="면접 질문을 입력하세요..."
                       value={customQuestion}
                       onChange={(e) => setCustomQuestion(e.target.value)}
                       className="flex-1 bg-white/10 border border-white/20 rounded-[12px] px-8 py-6 outline-none focus:ring-2 focus:ring-white transition-all text-2xl font-bold tracking-tight placeholder:text-white/40"
                     />
-                    <button 
+                    <button
                       onClick={() => handleGenerateAnswer(customQuestion)}
                       disabled={!customQuestion || loading}
                       className="bg-white text-brand-primary px-12 py-6 rounded-[12px] font-black text-xl hover:bg-brand-secondary transition-all shadow-xl disabled:opacity-50"
@@ -853,7 +848,7 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setStep("QUESTIONS")}
                     className="p-4 hover:bg-brand-secondary rounded-xl transition-colors shrink-0"
                   >
@@ -885,7 +880,7 @@ export default function App() {
 
                 <div className="grid grid-cols-1 gap-12">
                   {answerData.versions.map((version, idx) => (
-                    <motion.div 
+                    <motion.div
                       key={idx}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -989,7 +984,7 @@ export default function App() {
                       <p className="text-base leading-relaxed font-semibold">{answerData.tips.evalPoints?.extra}</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setStep("QUESTIONS")}
                     className="w-full py-5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-[16px] text-sm font-black transition-all relative z-10 active:scale-95"
                   >
@@ -1083,7 +1078,7 @@ export default function App() {
 
       {/* Loading Overlay */}
       {loading && step !== "QUESTIONS" && step !== "ANSWER" && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="fixed inset-0 z-[100] bg-brand-bg/80 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center"
