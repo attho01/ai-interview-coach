@@ -76,7 +76,6 @@ export async function fetchInterviewQuestions(company: string, jobInfo: string, 
       contents: [{ parts: [{ text: prompt }] }],
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        tools: [{ googleSearch: {} }],
         responseMimeType: "application/json",
         thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         responseSchema: {
@@ -236,7 +235,7 @@ export async function generateInterviewAnswers(
 export async function validateApiKey(apiKey: string): Promise<{ valid: boolean; message?: string; error?: string }> {
   const trimmedKey = apiKey.trim();
   if (!trimmedKey) return { valid: false, error: "API Key를 입력해주세요." };
-  
+
   try {
     const ai = new GoogleGenAI({ apiKey: trimmedKey });
     // Use a very small model and simple prompt to minimize latency and cost
@@ -244,49 +243,49 @@ export async function validateApiKey(apiKey: string): Promise<{ valid: boolean; 
       model: "gemini-3-flash-preview",
       contents: [{ parts: [{ text: "ping" }] }],
     });
-    
+
     if (response && response.text) {
-      return { 
-        valid: true, 
-        message: "API Key가 성공적으로 인증되었습니다. 커리어 엔진을 시작합니다." 
+      return {
+        valid: true,
+        message: "API Key가 성공적으로 인증되었습니다. 커리어 엔진을 시작합니다."
       };
     }
-    
+
     return { valid: false, error: "API 응답이 올바르지 않습니다. 다시 시도해주세요." };
   } catch (error: any) {
     console.error("API Key validation failed:", error);
-    
+
     const errorMessage = error.message || "";
     const status = error.status;
 
     // 1. Authentication Errors (Invalid Key)
-    if (errorMessage.includes("API_KEY_INVALID") || 
-        errorMessage.includes("invalid API key") ||
-        status === 401 || 
-        status === 403) {
+    if (errorMessage.includes("API_KEY_INVALID") ||
+      errorMessage.includes("invalid API key") ||
+      status === 401 ||
+      status === 403) {
       return { valid: false, error: "유효하지 않은 API Key입니다. 키를 다시 확인해주세요." };
     }
-    
+
     // 2. Quota & Rate Limit Errors
-    if (errorMessage.includes("QUOTA_EXCEEDED") || 
-        errorMessage.includes("RATE_LIMIT_EXCEEDED") || 
-        status === 429) {
+    if (errorMessage.includes("QUOTA_EXCEEDED") ||
+      errorMessage.includes("RATE_LIMIT_EXCEEDED") ||
+      status === 429) {
       return { valid: false, error: "API 할당량이 초과되었습니다. 잠시 후 다시 시도하거나 다른 프로젝트의 키를 사용해주세요." };
     }
 
     // 3. Network or Connection Errors
-    if (errorMessage.includes("fetch") || 
-        errorMessage.includes("NetworkError") || 
-        errorMessage.includes("Failed to fetch") ||
-        !navigator.onLine) {
+    if (errorMessage.includes("fetch") ||
+      errorMessage.includes("NetworkError") ||
+      errorMessage.includes("Failed to fetch") ||
+      !navigator.onLine) {
       return { valid: false, error: "네트워크 연결에 실패했습니다. 인터넷 연결 상태를 확인해주세요." };
     }
 
     // 4. Model Access or Region Restrictions
-    if (errorMessage.includes("not found") || 
-        errorMessage.includes("not available") ||
-        errorMessage.includes("location") ||
-        status === 404) {
+    if (errorMessage.includes("not found") ||
+      errorMessage.includes("not available") ||
+      errorMessage.includes("location") ||
+      status === 404) {
       return { valid: false, error: "해당 모델을 사용할 수 없는 지역이거나 모델을 찾을 수 없습니다." };
     }
 
