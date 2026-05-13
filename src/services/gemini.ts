@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, Part, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI, Type, Part } from "@google/genai";
 
 export interface Question {
   id: number;
@@ -77,7 +77,6 @@ export async function fetchInterviewQuestions(company: string, jobInfo: string, 
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         responseMimeType: "application/json",
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
@@ -148,7 +147,6 @@ export async function generateInterviewAnswers(
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         responseMimeType: "application/json",
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
